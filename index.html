@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <!-- แก้ไขลิ้งค์ให้เรียกโดยตรงใน GitHub -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -22,7 +23,6 @@
         <header class="app-header">
             <div class="logo-area">
                 <div class="logo-circle">
-                    <!-- SVG Logo Container -->
                     <svg viewBox="0 0 100 100" width="100" height="100">
                         <circle cx="50" cy="50" r="45" fill="#1e3a8a" />
                         <path d="M30 70 L50 30 L70 70 Z" fill="white" />
@@ -54,14 +54,12 @@
                 <div class="quick-actions">
                     <button id="todayBtn" class="action-btn-outline">วันนี้</button>
                     <button id="summaryBtn" class="action-btn-outline highlight">สรุปปีนี้</button>
-                    <button id="exportBtn" class="action-btn-outline admin-only"
-                        title="ส่งออกข้อมูลสำหรับเครื่องสแกนหน้า">ส่งออกข้อมูล (CSV)</button>
+                    <button id="exportBtn" class="action-btn-outline admin-only">ส่งออกข้อมูล (CSV)</button>
                     <button id="loginBtn" class="action-btn-outline">เข้าสู่ระบบเจ้าหน้าที่</button>
                 </div>
             </div>
         </header>
 
-        <!-- Summary Section (Initially Hidden) -->
         <section id="summarySection" class="summary-section hidden">
             <div class="summary-card">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 20px;">
@@ -116,7 +114,6 @@
                 <div class="sat">เสาร์</div>
             </div>
             <div id="calendarGrid" class="calendar-grid"></div>
-
             <div class="legend-area">
                 <div class="legend-item"><span class="dot holiday"></span> วันหยุดราชการ</div>
                 <div class="legend-item"><span class="dot buddhist"></span> วันพระ / วันสำคัญ</div>
@@ -135,7 +132,7 @@
         </section>
     </main>
 
-    <!-- Modal for details/Editing -->
+    <!-- Modal พื้นฐาน -->
     <div id="eventModal" class="modal hidden">
         <div class="glass-card">
             <div class="modal-header">
@@ -143,10 +140,8 @@
                 <span class="close-btn" id="closeModal">&times;</span>
             </div>
             <div id="viewMode">
-                <div class="modal-body">
-                    <p id="modalDate" class="modal-date-text"></p>
-                    <div id="modalDescription" class="modal-desc-box"></div>
-                </div>
+                <p id="modalDate" class="modal-date-text"></p>
+                <div id="modalDescription" class="modal-desc-box"></div>
                 <div class="modal-footer admin-only">
                     <button id="editBtn" class="action-btn">แก้ไข</button>
                     <button id="deleteBtn" class="action-btn delete-type">ลบ</button>
@@ -154,27 +149,19 @@
             </div>
             <div id="editMode" class="hidden">
                 <form id="eventForm" class="event-form">
-                    <div class="form-group">
-                        <label>วันที่</label>
-                        <input type="date" id="eventDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>ชื่อกิจกรรม/วันหยุด</label>
-                        <input type="text" id="eventName" placeholder="เช่น วันขึ้นปีใหม่" required>
-                    </div>
+                    <div class="form-group"><label>วันที่</label><input type="date" id="eventDate" required></div>
+                    <div class="form-group"><label>ชื่อกิจกรรม</label><input type="text" id="eventName" required></div>
                     <div class="form-group">
                         <label>ประเภท</label>
                         <select id="eventType">
                             <option value="public">วันหยุดราชการ</option>
-                            <option value="buddhist">วันพระ / วันสำคัญศาสนา</option>
+                            <option value="buddhist">วันพระ / วันสำคัญ</option>
                             <option value="exam">วันกิจกรรม / สอบ</option>
                             <option value="compensation">วันทำงานชดเชย</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>รายละเอียดเพิ่มเติม</label>
-                        <textarea id="eventDescription" rows="3"></textarea>
-                    </div>
+                    <div class="form-group"><label>รายละเอียด</label><textarea id="eventDescription"
+                            rows="3"></textarea></div>
                     <div class="form-actions">
                         <button type="submit" class="save-btn">บันทึก</button>
                         <button type="button" id="cancelEdit" class="cancel-btn">ยกเลิก</button>
@@ -195,43 +182,24 @@
                 <button id="loginTab" class="auth-tab active">เข้าสู่ระบบ</button>
                 <button id="registerTab" class="auth-tab">ลงทะเบียน</button>
             </div>
-
-            <form id="loginForm" class="event-form auth-form">
-                <div class="form-group">
-                    <label>ชื่อผู้ใช้งาน (Username)</label>
-                    <input type="text" id="loginUser" required>
-                </div>
-                <div class="form-group">
-                    <label>รหัสผ่าน (Password)</label>
-                    <input type="password" id="loginPass" required>
-                </div>
+            <form id="loginForm" class="event-form">
+                <div class="form-group"><label>Username</label><input type="text" id="loginUser" required></div>
+                <div class="form-group"><label>Password</label><input type="password" id="loginPass" required></div>
                 <button type="submit" class="save-btn">เข้าสู่ระบบ</button>
             </form>
-
-            <form id="registerForm" class="event-form auth-form hidden">
-                <div class="form-group">
-                    <label>ชื่อเจ้าหน้าที่ (Full Name)</label>
-                    <input type="text" id="regName" required>
-                </div>
-                <div class="form-group">
-                    <label>ชื่อผู้ใช้งาน (Username)</label>
-                    <input type="text" id="regUser" required>
-                </div>
-                <div class="form-group">
-                    <label>รหัสผ่าน (Password)</label>
-                    <input type="password" id="regPass" required>
-                </div>
-                <div class="form-group">
-                    <label>รหัสลับเชิญ (Invite Code)</label>
-                    <input type="password" id="regInvite" placeholder="สำหรับเจ้าหน้าที่เท่านั้น" required>
-                </div>
+            <form id="registerForm" class="event-form hidden">
+                <div class="form-group"><label>ชื่อจริง</label><input type="text" id="regName" required></div>
+                <div class="form-group"><label>Username</label><input type="text" id="regUser" required></div>
+                <div class="form-group"><label>Password</label><input type="password" id="regPass" required></div>
+                <div class="form-group"><label>Invite Code</label><input type="password" id="regInvite" required></div>
                 <button type="submit" class="save-btn highlight">ลงทะเบียน</button>
             </form>
         </div>
     </div>
 
-    <script src="js/holidays.js"></script>
-    <script src="js/script.js"></script>
+    <!-- แก้ไขสคริปต์ให้เรียกโดยตรง -->
+    <script src="holidays.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
